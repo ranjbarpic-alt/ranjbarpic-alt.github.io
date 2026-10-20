@@ -13,6 +13,22 @@
 *{box-sizing:border-box}html{color-scheme:dark;scroll-behavior:smooth;background:#181b15}body{margin:0;color:#f8f5e9;font-family:Damoon,Tahoma,sans-serif;font-weight:400;font-variation-settings:normal;font-size:16px;line-height:1.85;isolation:isolate}body:before,body:after{content:"";position:fixed;inset:0;pointer-events:none}body:before{z-index:-2;background:url('background.png') center/cover no-repeat}body:after{z-index:-1;background:rgba(7,13,9,.76)}a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}::selection{background:#f6df78;color:#142017}.page{max-width:1120px;margin:auto;padding:0 7vw}.top{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:25px 0;direction:ltr}.wordmark{font-size:14px;font-weight:550;letter-spacing:.05em}.top-nav{display:flex;gap:25px;font-size:14px}.languages{display:flex;gap:14px}.languages button{border:0;border-bottom:1px solid transparent;padding:4px 0;background:none;color:#ccc9ba;font-size:14px}.languages button[aria-pressed=true]{color:#f6df78;border-bottom-color:#f6df78}.hero{min-height:78svh;display:flex;align-items:center;padding:70px 0}.hero-copy{width:100%}h1,h2{font-family:Damoon,Tahoma,sans-serif;font-variation-settings:normal;letter-spacing:0}h1{font-size:clamp(3.1rem,8vw,7rem);line-height:1.35;font-weight:900;color:#f6df78;margin:0;text-wrap:balance}.profession{font-size:clamp(1.2rem,2.6vw,1.8rem);font-weight:350;margin:20px 0 28px}.cta{display:inline-block;font-size:16px;padding:3px 0;border-bottom:1px solid #f6df7880;color:#f6df78}.about,.contact{padding:65px 0 95px;background:none;border:0;display:block}.section-label{font-size:14px;color:#cccdbf;display:flex;gap:16px;margin-bottom:24px}.section-label span:first-child{font-size:12px}.about>div:last-child{max-width:710px;margin-inline-start:auto}h2{font-size:clamp(2rem,4vw,3.3rem);font-weight:650;line-height:1.5;margin:0 0 28px}.about h2{padding-bottom:24px;border-bottom:1px solid #eeedd34a}.bio{font-size:clamp(1.1rem,1.8vw,1.3rem);line-height:2;margin:0;color:#f3f1e5}.bio+.bio{margin-top:1.3em}.disciplines{display:flex;gap:25px;margin-top:28px;font-size:14px;color:#c9cbbd}.disciplines span{border:0;background:none;padding:0}.contact{max-width:710px;margin-inline-start:auto}.contact-intro{font-size:16px;margin:0 0 35px;color:#d6d9ca}.links{background:none;backdrop-filter:none;border:0;border-top:1px solid #eeedd34a;padding-top:18px;display:grid;gap:12px}.link{display:flex;align-items:center;gap:20px;min-height:105px;padding:16px 0;border:0;background:none;transform-origin:center;transition:color .2s}.link:hover{color:#f6df78}.icon{width:26px;flex-shrink:0}.icon svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}.label{font-size:clamp(1.35rem,2.5vw,1.9rem);font-weight:550;display:block}.handle{display:block;font-size:14px;direction:ltr;unicode-bidi:isolate;color:#c9ccbd;overflow-wrap:anywhere}.footer{display:flex;justify-content:space-between;gap:15px;padding:28px 0;font-size:12px;color:#c9ccbd;direction:ltr;border-top:1px solid #eeedd32b}.motion-item{transform:translate3d(var(--shift,0px),0,0) scale(var(--scale,1));transform-origin:center;opacity:var(--fade,1)}a:focus-visible,button:focus-visible{outline:2px solid #f6df78;outline-offset:7px}.motion-item:focus-within{transform:none;opacity:1}
 @media(max-width:700px){.page{padding:0 7vw}.top-nav{display:none}.top{gap:12px}.wordmark{font-size:12px}.languages{gap:12px}.hero{min-height:68svh;padding:60px 0}h1{font-size:clamp(2.8rem,12vw,4.6rem)}.about,.contact{padding:35px 0 65px}.about>div:last-child,.contact{max-width:100%}.bio{font-size:1.125rem}.link{min-height:100px;gap:16px}.label{font-size:1.4rem}.footer{font-size:12px;flex-wrap:wrap}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.motion-item{transform:none!important;opacity:1!important}.link{transition:none}}
+
+/* Transformable line boxes are required: inline spans ignore transforms. */
+.cylinder-line{display:block;width:100%;transform-origin:center;backface-visibility:hidden;line-height:inherit}
+h1,h2,.bio,.profession,.contact-intro{text-wrap:wrap;overflow:visible}
+.hero{min-height:0!important;padding:8px 0 12px!important}
+.top{padding:12px 0}.profession{margin:8px 0 12px}
+.about{padding:16px 0 28px!important}.contact{padding:22px 0 0!important}
+h1{font-weight:900;line-height:1.2}h2{font-weight:650}.profession{font-weight:300}
+.section-label{margin-bottom:12px}.about h2{padding-bottom:12px;margin-bottom:16px}
+.footer{margin-top:18px;padding:16px 0}main{padding-bottom:0}
+@media(prefers-reduced-motion:reduce){.cylinder-line,.link,.section-label,.disciplines,.cta{transform:none!important}}
+
+/* Compact endpoints: readable opening and no empty scroll tail. */
+.hero{padding:clamp(28px,5vh,56px) 0 22px!important}
+body{padding-bottom:0!important}main{padding-bottom:0!important}
+.footer{margin-top:22px;padding:18px 0}
 </style>
 </head>
 <body>
@@ -72,6 +88,7 @@
       const text = el.dataset[document.documentElement.lang] || el.textContent;
       el.textContent = text;
       if (reducedMotion.matches) return;
+      el.replaceChildren();
       const words = text.trim().split(/\s+/);
       const probes = words.map(word => {
         const span = document.createElement('span');
@@ -81,10 +98,10 @@
         return span;
       });
       // Remove original text node before measuring the word positions.
-      el.firstChild.remove();
+
       const lines = [];
       probes.forEach(probe => {
-        const top = probe.offsetTop;
+        const top = probe.getBoundingClientRect().top;
         const last = lines[lines.length - 1];
         if (!last || Math.abs(last.top - top) > 3) lines.push({top, words:[probe.textContent]});
         else last.words.push(probe.textContent);
@@ -99,6 +116,7 @@
       });
     });
     cylinderItems = [...document.querySelectorAll('.cylinder-line, .link, .section-label, .disciplines, .cta')];
+    document.body.style.paddingBottom = '0px';
     updateCylinder();
   }
   function updateCylinder() {
@@ -106,16 +124,22 @@
     cylinderItems.forEach(el => { el.style.transform = ''; el.style.opacity = ''; });
     if (reducedMotion.matches) return;
     const center = innerHeight * .5;
+    const maxScroll = Math.max(0, document.documentElement.scrollHeight - innerHeight);
+    const edgeRange = Math.min(innerHeight * .38, maxScroll / 2);
+    const edgeDistance = Math.max(0, Math.min(scrollY, maxScroll - scrollY));
+    const progress = edgeRange > 0 ? Math.min(1, edgeDistance / edgeRange) : 0;
+    // Ease into motion away from either endpoint; no spacer is necessary.
+    const strength = progress * progress * (3 - 2 * progress);
     // Read untransformed geometry once; retain natural vertical spacing.
     const positions = cylinderItems.map(el => {
       const rect = el.getBoundingClientRect();
       return {el, y:rect.top + rect.height / 2 - center};
     });
     positions.forEach(({el,y}) => {
-      const normalized = y / (innerHeight * .5);
-      const bend = Math.tanh(normalized * 1.65);
-      const angle = bend * 68;
-      const depth = -240 * bend * bend;
+      const normalized = y / Math.max(200, innerHeight * .52);
+      const bend = Math.tanh(normalized);
+      const angle = bend * 36 * strength;
+      const depth = -85 * bend * bend * strength;
       el.style.transform = `perspective(850px) translateZ(${depth}px) rotateX(${-angle}deg)`;
       el.style.opacity = '1';
     });
@@ -128,6 +152,7 @@
   addEventListener('resize', () => {clearTimeout(resizeTimer);resizeTimer=setTimeout(buildCylinder,120);});
   reducedMotion.addEventListener('change',buildCylinder);
   document.querySelectorAll('[data-lang]').forEach(button => button.addEventListener('click',buildCylinder));
+  buildCylinder();
   document.fonts.ready.then(buildCylinder);
 </script>
 </body>
